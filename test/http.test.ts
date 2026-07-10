@@ -51,4 +51,19 @@ describe("httpProbe", () => {
     expect(r.ok).toBe(false)
     expect(r.snapshot.error).toBeDefined()
   })
+
+  test("body truncated to maxBytes", async () => {
+    mode = "ok"
+    const shortOpts = { perAttemptMs: 1000, maxBytes: 10 }
+    const r = await httpProbe(base, undefined, shortOpts)(sig())
+    expect(r.ok).toBe(true)
+    const preview = String(r.snapshot.bodyPreview)
+    expect(preview.length).toBeLessThanOrEqual(10)
+  })
+
+  test("status as number[] matches", async () => {
+    mode = "ok"
+    const r = await httpProbe(base, { status: [200, 302] }, opts)(sig())
+    expect(r.ok).toBe(true)
+  })
 })

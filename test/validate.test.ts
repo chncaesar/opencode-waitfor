@@ -14,6 +14,9 @@ describe("validate", () => {
   test("non-positive timeout throws", () => {
     expect(() => validate({ target: "http://x", timeout: 0 })).toThrow()
   })
+  test("non-positive interval throws", () => {
+    expect(() => validate({ target: "http://x", interval: 0 })).toThrow()
+  })
   test("exit_code on http target throws", () => {
     expect(() => validate({ target: "http://x", expect: { exit_code: 0 } })).toThrow()
   })
