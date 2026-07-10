@@ -1,0 +1,22 @@
+{
+  "name": "opencode-waitfor",
+  "version": "0.1.0",
+  "description": "opencode plugin: a wait_for tool that polls HTTP/TCP/command targets until ready or timeout.",
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": { ".": "./src/index.ts" },
+  "files": ["src", "README.md", "LICENSE"],
+  "keywords": ["opencode", "opencode-plugin", "wait", "healthcheck", "poll"],
+  "license": "MIT",
+  "peerDependencies": { "@opencode-ai/plugin": "*", "zod": "*" },
+  "devDependencies": {
+    "@opencode-ai/plugin": "^1.17.18",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0",
+    "zod": "^3.23.0"
+  },
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  }
+}
