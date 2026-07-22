@@ -83,6 +83,15 @@ wait_for 'docker inspect -f "{{.State.Health.Status}}" pg | grep -q healthy'
 - **`json_match` compares stringified values only** — no deep equality, numeric comparison, or regex. Exact string match.
 - **`command` runs through the shell** and inherits the agent's environment/cwd. The caller is responsible for command safety.
 
+## More OpenCode Tools
+
+| Tool | Description |
+|------|-------------|
+| [opencode-db-clean](https://github.com/chncaesar/opencode-db-clean) | Reclaim disk space from bloated SQLite databases |
+| [opencode-waitfor](https://github.com/chncaesar/opencode-waitfor) | `wait_for` for HTTP/TCP/command readiness checks |
+| [opencode-session-reflection](https://github.com/chncaesar/opencode-session-reflection) | Qualitative review of past coding sessions |
+| [opencode-fleet](https://github.com/chncaesar/opencode-fleet) | Multi-node remote OpenCode orchestration |
+
 ## License
 
 MIT
