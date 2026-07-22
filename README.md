@@ -6,7 +6,11 @@ Replaces the manual `for i in $(seq 1 40); do sleep 3; curl ...; done` polling l
 
 ## Install
 
-Add `"opencode-waitfor"` to the `plugin` array in your `opencode.json`:
+```bash
+npm install -g opencode-waitfor
+```
+
+Or add it directly to your `opencode.json`:
 
 ```json
 {
