@@ -1,8 +1,22 @@
 # opencode-waitfor
 
-A zero-dependency opencode plugin that adds a `wait_for` tool to poll HTTP, TCP, or shell command targets until they are ready or a timeout elapses.
+AI coding agents often write fragile polling loops by hand.
 
-Replaces the manual `for i in $(seq 1 40); do sleep 3; curl ...; done` polling loops that agents write by hand.
+`opencode-waitfor` adds a small `wait_for` tool to OpenCode so agents can wait for HTTP endpoints, TCP ports, or shell commands until reality is actually ready.
+
+It replaces loops like this:
+
+```bash
+for i in $(seq 1 40); do sleep 3; curl -s http://localhost:3000 && break; done
+```
+
+With a readiness primitive the agent can call directly:
+
+```text
+wait_for http://localhost:3000
+```
+
+Part of the [OpenCode Reliability Toolkit](https://jczhu.com/opencode-tools/): small tools for making AI coding agents more reliable in real engineering workflows.
 
 ## Install
 
@@ -49,6 +63,19 @@ On timeout, `metadata.success` is `false`, `metadata.reason` is `"timeout"`, and
 
 Invalid inputs (e.g. `interval > timeout`, `expect.exit_code` on an HTTP target) throw an error immediately.
 
+## When to use this
+
+Use `wait_for` when an agent needs to wait for a real readiness condition before continuing:
+
+- A dev server must finish starting before browser or API tests run.
+- A deployment health endpoint must return the expected version before smoke tests pass.
+- A database, cache, or container port must accept connections before migration or test commands run.
+- A shell command must report a ready state before the next step begins.
+
+## When not to use this
+
+Do not use `wait_for` as a substitute for proper application health checks. If the service has no meaningful readiness signal, add one first. A poller can only verify the condition it is given.
+
 ## Examples
 
 ### Wait for a dev server
@@ -87,12 +114,12 @@ wait_for 'docker inspect -f "{{.State.Health.Status}}" pg | grep -q healthy'
 - **`json_match` compares stringified values only** — no deep equality, numeric comparison, or regex. Exact string match.
 - **`command` runs through the shell** and inherits the agent's environment/cwd. The caller is responsible for command safety.
 
-## More OpenCode Tools
+## OpenCode Reliability Toolkit
 
 | Tool | Description |
 |------|-------------|
-| [opencode-db-clean](https://github.com/chncaesar/opencode-db-clean) | Reclaim disk space from bloated SQLite databases |
 | [opencode-waitfor](https://github.com/chncaesar/opencode-waitfor) | `wait_for` for HTTP/TCP/command readiness checks |
+| [opencode-db-clean](https://github.com/chncaesar/opencode-db-clean) | Reclaim disk space from bloated SQLite databases |
 | [opencode-session-reflection](https://github.com/chncaesar/opencode-session-reflection) | Qualitative review of past coding sessions |
 | [opencode-fleet](https://github.com/chncaesar/opencode-fleet) | Multi-node remote OpenCode orchestration |
 
