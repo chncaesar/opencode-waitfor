@@ -1,6 +1,8 @@
 import { afterAll, beforeAll, describe, expect, test } from "bun:test"
 import { createServer, type Server } from "node:http"
-import WaitForPlugin from "../src/index"
+import plugin from "../src/index"
+
+const WaitForPlugin = plugin.server
 
 async function getTool() {
   const hooks = await WaitForPlugin(
@@ -58,5 +60,28 @@ describe("wait_for integration", () => {
     await expect(
       t.execute({ target: base, timeout: 1, interval: 5 } as never, ctx()),
     ).rejects.toThrow()
+  })
+})
+
+describe("V2 plugin definition", () => {
+  test("default export has id and setup, and setup registers wait_for", async () => {
+    expect(plugin.id).toBe("opencode-waitfor")
+    expect(typeof plugin.setup).toBe("function")
+    const tools: any[] = []
+    let disposed = false
+    const cleanup = await plugin.setup({
+      location: { directory: process.cwd() },
+      tool: {
+        transform: async (fn: (editor: any) => void) => {
+          fn({ add: (t: unknown) => tools.push(t) })
+          return { dispose: async () => void (disposed = true) }
+        },
+      },
+    })
+    expect(tools.map((t) => t.name)).toEqual(["wait_for"])
+    const result = await tools[0].execute({ target: "true", timeout: 2, interval: 1 }, {})
+    expect(result.content).toContain("became ready")
+    await cleanup()
+    expect(disposed).toBe(true)
   })
 })
