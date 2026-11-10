@@ -1,6 +1,6 @@
 {
   "name": "opencode-waitfor",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "opencode plugin: a wait_for tool that polls HTTP/TCP/command targets until ready or timeout.",
   "type": "module",
   "main": "./dist/index.js",
