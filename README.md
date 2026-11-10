@@ -16,8 +16,6 @@ With a readiness primitive the agent can call directly:
 wait_for http://localhost:3000
 ```
 
-Part of the [OpenCode Reliability Toolkit](https://jczhu.com/opencode-tools/): small tools for making AI coding agents more reliable in real engineering workflows.
-
 ## Install
 
 Add it to your `opencode.json(c)`:
@@ -121,15 +119,6 @@ wait_for 'docker inspect -f "{{.State.Health.Status}}" pg | grep -q healthy'
 - **HTTP targets MUST include the scheme** (`http://` or `https://`). A schemeless URL like `localhost:3000/health` is treated as a shell command (and will fail to run).
 - **`json_match` compares stringified values only** — no deep equality, numeric comparison, or regex. Exact string match.
 - **`command` runs through the shell** and inherits the agent's environment/cwd. The caller is responsible for command safety.
-
-## OpenCode Reliability Toolkit
-
-| Tool | Description |
-|------|-------------|
-| [opencode-waitfor](https://github.com/chncaesar/opencode-waitfor) | `wait_for` for HTTP/TCP/command readiness checks |
-| [opencode-db-clean](https://github.com/chncaesar/opencode-db-clean) | Reclaim disk space from bloated SQLite databases |
-| [opencode-session-reflection](https://github.com/chncaesar/opencode-session-reflection) | Qualitative review of past coding sessions |
-| [opencode-fleet](https://github.com/chncaesar/opencode-fleet) | Multi-node remote OpenCode orchestration |
 
 ## License
 
