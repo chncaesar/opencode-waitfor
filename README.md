@@ -20,19 +20,27 @@ Part of the [OpenCode Reliability Toolkit](https://jczhu.com/opencode-tools/): s
 
 ## Install
 
-```bash
-npm install -g opencode-waitfor
-```
+Add it to your `opencode.json(c)`:
 
-Or add it directly to your `opencode.json`:
-
-```json
+```jsonc
 {
-  "plugin": ["opencode-waitfor"]
+  "$schema": "https://opencode.ai/config.json",
+  "plugins": ["opencode-waitfor"]
 }
 ```
 
-Then restart opencode.
+Pin a version with `"opencode-waitfor@0.2.1"` if you want reproducible setups. OpenCode installs the package on demand and reloads plugins when the config changes.
+
+On OpenCode 1.x, use the `plugin` key instead of `plugins`, then restart opencode.
+
+## Compatibility
+
+One package covers both plugin APIs:
+
+- **OpenCode 2.x** — V2 plugin entry (`id` + `setup`), registering `wait_for` as a tool.
+- **OpenCode 1.x** — legacy server plugin export, same `wait_for` tool and arguments.
+
+The tool surface is identical on both, so a config or skill written against `wait_for` keeps working across the upgrade.
 
 ## Tool: `wait_for`
 
